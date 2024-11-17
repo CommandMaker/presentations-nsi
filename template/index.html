@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Titre du diaporama</title>
+
+        <link rel="stylesheet" href="../reveal/dist/reveal.css">
+        <link rel="stylesheet" href="../reveal/dist/theme/tokyo-night.css">
+        <link rel="stylesheet" href="../reveal/plugin/highlight/tokyo-night.css">
+
+        <style>
+            strong {
+                color: #7aa2f7;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides"></div>
+        </div>
+
+        <script type="module">
+            import Reveal from '../reveal/dist/reveal.esm.js';
+            import RevealCode from '../reveal/plugin/highlight/highlight.esm.js';
+
+            Reveal.initialize({
+                plugins: [RevealCode],
+                hash: true
+            });
+        </script>
+    </body>
+</html>

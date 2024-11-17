@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>La programmation orientée objet en Python</title>
+
+        <link rel="stylesheet" href="../reveal/dist/reveal.css">
+        <link rel="stylesheet" href="../reveal/dist/theme/tokyo-night.css">
+        <link rel="stylesheet" href="../reveal/plugin/highlight/tokyo-night.css">
+
+        <style>
+            strong {
+                color: #7aa2f7;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section data-auto-animate>
+                    <h1>La programmation orientée objet en Python</h1>
+                </section>
+
+                <section data-auto-animate>
+                    <h1 style="color: rgb(224, 175, 104)">La programmation orientée objet en Python</h1>
+
+                    <ul>
+                        <li>Structurer les données sous formes de classes</li>
+                        <li>Contient des <strong>attributs</strong> et des <strong>méthodes</strong></li>
+                        <li>Est construit à l'aide d'un constructeur (__init__)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Vocabulaire</h2>
+
+                    <p><strong>Classe :</strong> Moule définissant la manière de créer un objet. Contient des attributs et des méthodes</p>
+                    <p class="fragment"><strong>Objet :</strong> Instance d'une classe. Contient des attributs propres à cette instance</p>
+                    <p class="fragment"><strong>Attributs :</strong> Caractéristiques d'un objet</p>
+                    <p class="fragment"><strong>Méthodes :</strong> Fonctions permettant la manipulation d'un objet et de ses attributs</p>
+                    <p class="fragment"><strong>Constructeur :</strong> Méthode expliquant comment créer un objet (valeurs par défaut des paramètres, ...)</p>
+                    <p class="fragment"><strong>Self :</strong> Mot-clef utilisé pour parler de l'instance courante de la classe</p>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Exemple</h2>
+
+                    <pre>
+                        <code data-line-numbers="1-15|1|3-11|3-8|9-11|14-15" style="font-size: 1em" data-trim>
+                            class Person:
+
+                                def __init__(
+                                    self,
+                                    nom = 'Doe',
+                                    prenom = 'John',
+                                    age = 30
+                                ):
+                                    self.nom = nom
+                                    self.prenom = prenom
+                                    self.age = age
+
+
+                                def greetings(self, other_person):
+                                    print(f'Bonjour {other_person.prenom}')
+                        </code>
+                    </pre>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Exemple</h2>
+
+                    <pre>
+                        <code data-trim data-line-numbers>
+                            person = Person()
+
+                            print(f'{person.prenom} {person.nom}') # John Doe
+
+                            person1 = Person(nom = 'Hudson', prenom = 'Saul', age = 59)
+
+                            print(f'{person1.prenom} {person1.nom}') # Saul Hudson
+                        </code>
+                    </pre>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Les méthodes magiques</h2>
+
+                    <ul>
+                        <li>Sont interprétées directement par Python (aucun besoin de les appeler directement)</li>
+                        <li class="fragment">Sont toujours encadrées de 2 underscores '__'</li>
+                        <li class="fragment">Permettent de modifier le comportement d'une classe dans certains cas</li>
+                        <li class="fragment">Servent à créer du sucre syntaxique</li>
+                    </ul>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Les méthodes magiques</h2>
+
+                    <p><strong>Exemples de méthodes magiques :</strong></p>
+                    <ul>
+                        <li><strong>__str__ :</strong> Permet de modifier le résultat de sortie de la fonction str()</li>
+                        <li class="fragment"><strong>__init__ :</strong> Permet de créer une instance d'une classe</li>
+                        <li class="fragment"><strong>__len__ :</strong> Permet d'utiliser la fonction len() sur l'objet</li>
+                        <li class="fragment"><strong>__lt__ :</strong> Permet de comparer deux objets en utilisant le signe "&lt;"</li>
+                        <li class="fragment"><strong>__gt__ :</strong> Permet de comparer deux objets en utilisant le signe "&gt;"</li>
+                    </ul>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Les méthodes magiques</h2>
+
+                    <div style="display: flex; gap: 1em">
+                        <pre>
+                            <code data-trim data-line-numbers style="font-size: 1em">
+                                class Person:
+
+                                    def __init__(self, nom, prenom, age):
+                                        self.nom = nom
+                                        self.prenom = prenom
+                                        self.age = age
+
+                                    def __str__(self):
+                                        return f'{self.prenom} {self.nom}'
+
+                                    def __len__(self):
+                                        return self.age
+
+                                    def __lt__(self, person):
+                                        return self.age &lt; person.age
+
+                                    def __gt__(self, person):
+                                        return self.age &gt; person.age
+                            </code>
+                        </pre>
+
+                        <pre class="fragment">
+                            <code data-trim data-line-numbers="1-13|1-2|4-5|7-8|10-13" style="font-size: 1em">
+                                person = Person(nom = 'Hudson', prenom = 'Saul', age = 59)
+                                person1 = Person(nom = 'Brodén', prenom = 'Joakim', age = 44)
+
+                                print(f'La personne 1 s\'appelle {person}') # aka str(person)
+                                # Output : La personne 1 s'appelle Saul Hudson
+
+                                # aka : person1.__len__()
+                                print(f'{person1} a {len(person1)} ans') # Joakim Brodén a 44 ans
+
+                                if person &lt; person1: # aka : person.__lt__(person1)
+                                    print(f'{person1} est plus agée que {person}')
+                                elif person &gt; person1: # aka : person.__gt__(person1)
+                                    print(f'{person} est plus agée que {person1}')
+                            </code>
+                        </pre>
+                    </div>
+                </section>
+                <section>
+                    <h1>Merci</h1>
+                </section>
+            </div>
+        </div>
+
+        <script type="module">
+        import Reveal from '../reveal/dist/reveal.esm.js';
+        import RevealCode from '../reveal/plugin/highlight/highlight.esm.js';
+
+        Reveal.initialize({
+            plugins: [RevealCode],
+            hash: true
+        });
+        </script>
+    </body>
+</html>
